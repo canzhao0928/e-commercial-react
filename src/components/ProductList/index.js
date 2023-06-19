@@ -1,14 +1,5 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import Product from '../Product'
-import {
-  Grid,
-  Button,
-  Stack,
-  Select,
-  InputLabel,
-  MenuItem,
-  FormControl,
-} from '@mui/material'
 
 const allProducts = [
   {
@@ -97,7 +88,7 @@ class ProductList extends Component {
   //filter all shirts category
   filterShirts = () => {
     const products = this.state.products
-    products.map((product) =>
+    products.map(product =>
       product.category === 'skirts'
         ? (product.show = true)
         : (product.show = false)
@@ -110,7 +101,7 @@ class ProductList extends Component {
   //filter all pants and shirts category
   filterPantsShirts = () => {
     const products = this.state.products
-    products.map((product) =>
+    products.map(product =>
       product.category === 'skirts' || product.category === 'pants'
         ? (product.show = true)
         : (product.show = false)
@@ -123,7 +114,7 @@ class ProductList extends Component {
   //filter all Jackets category
   filterJackets = () => {
     const products = this.state.products
-    products.map((product) =>
+    products.map(product =>
       product.category === 'jackets'
         ? (product.show = true)
         : (product.show = false)
@@ -136,16 +127,16 @@ class ProductList extends Component {
   //filter all category
   filterAll = () => {
     const products = this.state.products
-    products.map((product) => (product.show = true))
+    products.map(product => (product.show = true))
     this.setState({
       products: products,
     })
   }
 
   // search for text box， not Case Sensitive
-  search = (e) => {
+  search = e => {
     const products = this.state.products
-    products.map((product) =>
+    products.map(product =>
       product.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
       product.description.toLowerCase().includes(e.target.value.toLowerCase())
         ? (product.show = true)
@@ -157,9 +148,9 @@ class ProductList extends Component {
   }
 
   //sort by price
-  sortByPrice = (e) => {
+  sortByPrice = e => {
     const products = this.state.products
-    e.target.value
+    e.target.value === '1'
       ? products.sort((a, b) => b.price - a.price)
       : products.sort((a, b) => a.price - b.price)
     this.setState({ sort: e.target.value, products: products })
@@ -167,27 +158,77 @@ class ProductList extends Component {
 
   render() {
     return (
-      <>
-        <Stack spacing={2} direction="row">
-          <Button onClick={this.filterShirts}>Shirts</Button>
-          <Button onClick={this.filterPantsShirts}>Pants and skirts</Button>
-          <Button onClick={this.filterJackets}>Jackets</Button>
-          <Button onClick={this.filterAll}>All products</Button>
-          <input type="text" onChange={this.search} placeholder="Search" />
-          <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
-            <InputLabel id="sort">Sort by price</InputLabel>
-            <Select
-              labelId="sort"
+      <div>
+        <nav className="shadow-lg w-full p-5">
+          <span className="flex block justify-between">
+            <div className=" ml-10 flex items-baseline space-x-4">
+              <a
+                href="#Home"
+                className="cursor-pointer text-yellow-600 font-semibold px-3 py-2 text-md hover:font-bold"
+                onClick={this.filterAll}
+              >
+                All products
+              </a>
+              <a
+                href="#About"
+                className="cursor-pointer hover:bg-yellow-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                onClick={this.filterPantsShirts}
+              >
+                Pants and skirts
+              </a>
+              <a
+                href="#Services"
+                className="cursor-pointer hover:bg-yellow-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                onClick={this.filterJackets}
+              >
+                Jackets
+              </a>
+              <a
+                href="#Services"
+                className="cursor-pointer hover:bg-yellow-600 text-black hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                onClick={this.filterShirts}
+              >
+                Shirts
+              </a>
+            </div>
+            <label className="relative block">
+              <span className="sr-only">Search</span>
+              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                <svg
+                  className="h-5 w-5 fill-slate-300"
+                  viewBox="0 0 20 20"
+                ></svg>
+              </span>
+              <input
+                className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                placeholder="Search for products..."
+                type="text"
+                name="search"
+                onChange={this.search}
+              />
+            </label>
+          </span>
+        </nav>
+        <div className="flex justify-end">
+          <div>
+            <label
+              htmlFor="sort"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Sort by price
+            </label>
+            <select
+              id="sort"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={this.state.sort}
               onChange={this.sortByPrice}
             >
-              <MenuItem value={0}>lowest-to-highest</MenuItem>
-              <MenuItem value={1}>highest-to-lowest</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
-
-        <Grid container spacing={2}>
+              <option value={0}>lowest-to-highest</option>
+              <option value={1}>highest-to-lowest</option>
+            </select>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-10 w-5/6 m-auto">
           {this.state.products.map((product, index) => {
             return (
               product.show && (
@@ -200,8 +241,8 @@ class ProductList extends Component {
               )
             )
           })}
-        </Grid>
-      </>
+        </div>
+      </div>
     )
   }
 }

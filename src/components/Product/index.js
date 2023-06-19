@@ -1,15 +1,14 @@
-import { Component } from 'react'
-import { Grid } from '@mui/material'
+import React, { Component } from 'react'
 
 class Product extends Component {
   render() {
     const { pName, pText, pPrice } = this.props
     return (
-      <Grid item xs={3}>
-        <h1>{pName}</h1>
+      <div className="grid grid-cols-1 border-solid border-2 rounded-md p-4 hover:scale-110">
+        <h1 className="font-bold">{pName}</h1>
         <p>{pText}</p>
-        <h2>${pPrice}</h2>
-      </Grid>
+        <h2 className="font-bold">${pPrice}</h2>
+      </div>
     )
   }
 }
